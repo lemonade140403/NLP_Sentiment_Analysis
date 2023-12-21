@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phân tích cảm xúc</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    /* trang trí nền, biên trái, biên phải */
+    body {
+        background-color: #f9f5f3;
+        border-left: 10px solid #135E6A;
+        border-right: 10px solid #135E6A;
+    }
+
+    /* căn nội dung và thêm padding */
+    .container {
+        margin-top: 50px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* heading */
+    h1 {
+        color: #135E6A;
+    }
+
+    /* ô bình luận */
+    .form-control {
+        background-color: #f6f6f6;
+    }
+
+    /* nút */
+    .btn-primary {
+        background-color: #186975;
+        border-color: #186975;
+    }
+
+    /* nút khi di chuột tới */
+    .btn-primary:hover {
+        background-color: #208392;
+        border-color: #208392;
+    }
+
+    /* tích cực */
+    .alert-success {
+        background-color: #cce6d2;
+        color: #0d6775;
+        border-color: #cce6d2;
+    }
+
+    /* tiêu cực */
+    .alert-danger {
+        background-color: #ebd5d7;
+        color: #9c3b0f;
+        border-color: #ebd5d7;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/Logo_UEH.png') }}" alt="Your Image" style="width: 150px; height: auto;">
+        <h1 class="md-4">Demo phân tích cảm xúc: Chủ đề UEH</h1>
+        <form method="POST" action="{{ url_for('index') }}" autocomplete="off">
+            <div class="form-group">
+                <label for="user_input">Nhập bình luận cần đánh giá:</label>
+                <input type="text" class="form-control" id="user_input" name="user_input" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cheers!</button>
+        </form>
+        {% if sentiment_result %}
+            <div class="mt-4">
+                {% if sentiment_result == 'positive' %}
+                    <div class="alert alert-success" role="alert">Bình luận tích cực! 😁😁</div>
+                    <p>Độ tin cậy dự đoán: {{ confidence }}%</p>
+                    <img src="{{ url_for('static', filename='images/positive.jpg') }}" alt="Positive Image" style="width: 200px; height: auto;">
+                {% else %}
+                    <div class="alert alert-danger" role="alert">Bình luận tiêu cực! 😔😔</div>
+                    <p>Độ tin cậy dự đoán: {{ confidence }}%</p>
+                    <img src="{{ url_for('static', filename='images/negative.gif') }}" alt="Negative Image" style="width: 200px; height: auto;">
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
